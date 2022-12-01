@@ -3,12 +3,23 @@
 
 import 'dart:math';
 
-int solveA(Iterable<String> input) => solve(input).reduce(max);
+int solveA(Iterable<String> input) {
+  int sum = 0;
+  int maxSum = 0;
 
-int solveB(Iterable<String> input) =>
-    (solve(input)..sort()).reversed.take(3).reduce((a, b) => a + b);
+  for (final line in input.followedBy(const [''])) {
+    if (line.isEmpty) {
+      maxSum = max(sum, maxSum);
+      sum = 0;
+    } else {
+      sum += int.parse(line);
+    }
+  }
 
-List<int> solve(Iterable<String> input) {
+  return maxSum;
+}
+
+int solveB(Iterable<String> input) {
   List<int> sums = [];
   int tmpSum = 0;
 
@@ -20,6 +31,7 @@ List<int> solve(Iterable<String> input) {
       tmpSum += int.parse(line);
     }
   }
+  sums.sort((a, b) => b.compareTo(a));
 
-  return sums;
+  return sums.take(3).reduce((a, b) => a + b);
 }
