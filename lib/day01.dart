@@ -1,35 +1,25 @@
-// --- Day 1: Sonar Sweep ---
-// https://adventofcode.com/2021/day/1
+// --- Day 1: Calorie Counting ---
+// https://adventofcode.com/2022/day/1
 
-int solveA(Iterable<String> input) {
-  var increases = 0;
-  int? lastDepth;
+import 'dart:math';
 
-  for (final depth in input.map(int.parse)) {
-    if (lastDepth != null && lastDepth < depth) {
-      increases++;
+int solveA(Iterable<String> input) => solve(input).reduce(max);
+
+int solveB(Iterable<String> input) =>
+    (solve(input)..sort()).reversed.take(3).reduce((a, b) => a + b);
+
+List<int> solve(Iterable<String> input) {
+  List<int> sums = [];
+  int tmpSum = 0;
+
+  for (final line in input.followedBy(const [''])) {
+    if (line.isEmpty) {
+      sums.add(tmpSum);
+      tmpSum = 0;
+    } else {
+      tmpSum += int.parse(line);
     }
-
-    lastDepth = depth;
   }
 
-  return increases;
-}
-
-int solveB(Iterable<String> input) {
-  final depths = input.map(int.parse).toList(growable: false);
-  var increases = 0;
-  int? lastDepth;
-
-  for (var i = 0; i < depths.length - 2; i++) {
-    final depth = depths[i] + depths[i + 1] + depths[i + 2];
-
-    if (lastDepth != null && lastDepth < depth) {
-      increases++;
-    }
-
-    lastDepth = depth;
-  }
-
-  return increases;
+  return sums;
 }
