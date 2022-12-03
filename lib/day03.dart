@@ -1,13 +1,6 @@
 // --- Day 3: Rucksack Reorganization ---
 // https://adventofcode.com/2022/day/3
 
-final Map<String, int> priorityMap = {
-  for (var i = 0; i < 26; i++)
-    String.fromCharCode('a'.codeUnitAt(0) + i): i + 1,
-  for (var i = 0; i < 26; i++)
-    String.fromCharCode('A'.codeUnitAt(0) + i): i + 27,
-};
-
 int solveA(Iterable<String> input) {
   int sum = 0;
 
@@ -16,7 +9,7 @@ int solveA(Iterable<String> input) {
     Set<String> firstCompartment = items.sublist(0, items.length ~/ 2).toSet();
     Set<String> secondCompartment = items.sublist(items.length ~/ 2).toSet();
 
-    sum += priorityMap[firstCompartment.intersection(secondCompartment).first]!;
+    sum += getPriority(firstCompartment.intersection(secondCompartment).first);
   }
 
   return sum;
@@ -37,10 +30,24 @@ int solveB(List<String> input) {
 
     // For last line in each third iteration
     if (i % 3 == 2) {
-      sum += priorityMap[groupItemSet.first]!;
+      sum += getPriority(groupItemSet.first);
       groupItemSet.clear();
     }
   }
 
   return sum;
+}
+
+int getPriority(String character) {
+  final asciiValue = character.codeUnitAt(0);
+
+  if (asciiValue >= 65 && asciiValue <= 90) {
+    // A (Priority 1) -> Z (Priority 26)
+    return (asciiValue - 64) + 26;
+  } else if (asciiValue >= 97 && asciiValue <= 122) {
+    // a (Priority 27) -> Z (Priority 52)
+    return asciiValue - 96;
+  }
+
+  throw 'Could not parse character: $character';
 }
