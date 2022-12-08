@@ -9,12 +9,13 @@ import 'package:collection/collection.dart';
 int solveA(List<String> input) {
   Grid grid = Grid(input.first.length, input.length)
     ..setAllValues(input.expand((line) => line.split('')).map(int.parse));
+  BoolList treeThatCanBeSeenList = BoolList(grid.list.length);
 
   int checkTree(int highestTree, int x, int y) {
     final int treeHeight = grid.get(x, y);
 
     if (treeHeight > highestTree) {
-      grid.visit(x, y);
+      treeThatCanBeSeenList[grid.listIndexOf(x, y)] = true;
       return treeHeight;
     } else {
       return highestTree;
@@ -57,7 +58,7 @@ int solveA(List<String> input) {
     }
   }
 
-  return grid.countVisited;
+  return treeThatCanBeSeenList.where((element) => element).length;
 }
 
 int solveB(List<String> input) {
@@ -136,11 +137,8 @@ class Grid {
   final int xSize;
   final int ySize;
   final Uint8List list;
-  final BoolList visitedList;
 
-  Grid(this.xSize, this.ySize)
-      : list = Uint8List(xSize * ySize),
-        visitedList = BoolList(xSize * ySize);
+  Grid(this.xSize, this.ySize) : list = Uint8List(xSize * ySize);
 
   int get(int x, int y) => list[listIndexOf(x, y)];
   int listIndexOf(int x, int y) => x + (y * xSize);
@@ -148,17 +146,13 @@ class Grid {
   void setValue(int x, int y, int value) => list[listIndexOf(x, y)] = value;
   void setAllValues(Iterable<int> values) => list.setAll(0, values);
 
-  void visit(int x, int y) => visitedList[listIndexOf(x, y)] = true;
-
-  int get countVisited => visitedList.where((boolValue) => boolValue).length;
-
   @override
   String toString() {
     final buffer = StringBuffer();
 
     for (var y = 0; y < ySize; y++) {
       for (var x = 0; x < xSize; x++) {
-        buffer.write(visitedList[listIndexOf(x, y)] ? get(x, y) : ' ');
+        buffer.write(get(x, y));
       }
       buffer.writeln();
     }
