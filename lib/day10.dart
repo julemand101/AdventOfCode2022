@@ -5,11 +5,12 @@ import 'package:collection/collection.dart';
 
 int solveA(Iterable<String> input) =>
     runProgramAndGetRegisterXEachCycle(input).foldIndexed(
-        0,
-        (cpuCycle, sum, registerX) =>
-            (cpuCycle == 20 || (cpuCycle > 20 && (cpuCycle - 20) % 40 == 0))
-                ? sum + (cpuCycle * registerX)
-                : sum);
+      0,
+      (cpuCycle, sum, registerX) =>
+          (cpuCycle == 20 || (cpuCycle > 20 && (cpuCycle - 20) % 40 == 0))
+              ? sum + (cpuCycle * registerX)
+              : sum,
+    );
 
 String solveB(Iterable<String> input) =>
     runProgramAndGetRegisterXEachCycle(input).skip(1).take(240).foldIndexed(
