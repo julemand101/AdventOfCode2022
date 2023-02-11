@@ -10,7 +10,7 @@ final Map<String, int> heightMap = {
 };
 
 int solveA(Iterable<String> input) {
-  for (final line in input) {}
+  //for (final line in input) {}
 
   heightMap.entries.forEach(print);
 
