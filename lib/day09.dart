@@ -11,23 +11,24 @@ int solve(Iterable<String> input, {required int amountOfKnots}) {
   final knots = List.filled(amountOfKnots, const Point<int>(0, 0));
 
   for (final line in input) {
-    final parts = line.split(' ');
-    final direction = parts[0];
-    final distance = int.parse(parts[1]);
+    final List<String> parts = line.split(' ');
+    final String direction = parts[0];
+    final int distance = int.parse(parts[1]);
 
     for (var i = 0; i < distance; i++) {
       final oldHeadPoint = knots[0];
 
-      if (direction == 'U') {
-        knots[0] = Point<int>(oldHeadPoint.x, oldHeadPoint.y - 1);
-      } else if (direction == 'D') {
-        knots[0] = Point<int>(oldHeadPoint.x, oldHeadPoint.y + 1);
-      } else if (direction == 'L') {
-        knots[0] = Point<int>(oldHeadPoint.x - 1, oldHeadPoint.y);
-      } else if (direction == 'R') {
-        knots[0] = Point<int>(oldHeadPoint.x + 1, oldHeadPoint.y);
-      } else {
-        throw 'Invalid instruction: $line';
+      switch (direction) {
+        case 'U':
+          knots[0] = Point<int>(oldHeadPoint.x, oldHeadPoint.y - 1);
+        case 'D':
+          knots[0] = Point<int>(oldHeadPoint.x, oldHeadPoint.y + 1);
+        case 'L':
+          knots[0] = Point<int>(oldHeadPoint.x - 1, oldHeadPoint.y);
+        case 'R':
+          knots[0] = Point<int>(oldHeadPoint.x + 1, oldHeadPoint.y);
+        default:
+          throw 'Invalid instruction: $line';
       }
 
       for (var knotIndex = 1; knotIndex < knots.length; knotIndex++) {

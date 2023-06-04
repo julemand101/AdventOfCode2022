@@ -41,12 +41,13 @@ Iterable<int> runProgramAndGetRegisterXEachCycle(Iterable<String> input) sync* {
   for (final instruction in input) {
     yield registerX;
 
-    if (instruction.startsWith('addx')) {
-      yield registerX += int.parse(instruction.split(' ')[1]);
-    } else if (instruction == 'noop') {
-      // Do nothing
-    } else {
-      throw '$instruction is an invalid instruction!';
+    switch (instruction.split(' ')) {
+      case ['addx', final value]:
+        yield registerX += int.parse(value);
+      case ['noop']:
+        break; // Do nothing
+      default:
+        throw '$instruction is an invalid instruction!';
     }
   }
 }

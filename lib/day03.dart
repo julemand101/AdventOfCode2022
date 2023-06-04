@@ -38,16 +38,13 @@ int solveB(List<String> input) {
   return sum;
 }
 
-int getPriority(String character) {
-  final asciiValue = character.codeUnitAt(0);
+int getPriority(String character) => switch (character.codeUnitAt(0)) {
+      // A (Priority 1) -> Z (Priority 26)
+      >= 65 && <= 90 && final asciiValue => (asciiValue - 64) + 26,
 
-  if (asciiValue >= 65 && asciiValue <= 90) {
-    // A (Priority 1) -> Z (Priority 26)
-    return (asciiValue - 64) + 26;
-  } else if (asciiValue >= 97 && asciiValue <= 122) {
-    // a (Priority 27) -> Z (Priority 52)
-    return asciiValue - 96;
-  }
+      // a (Priority 27) -> Z (Priority 52)
+      >= 97 && <= 122 && final asciiValue => asciiValue - 96,
 
-  throw 'Could not parse character: $character';
-}
+      // Else...
+      _ => throw 'Could not parse character: $character',
+    };

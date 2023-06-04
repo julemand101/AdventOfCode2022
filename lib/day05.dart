@@ -56,11 +56,9 @@ String solve(
     int moveTo = int.parse(match[3]!) - 1;
 
     List<String> moveFromList = queues[moveFrom];
-    List<String> containers = [];
-
-    for (var i = 0; i < moveAmount; i++) {
-      containers.add(moveFromList.removeLast());
-    }
+    List<String> containers = [
+      for (var i = 0; i < moveAmount; i++) moveFromList.removeLast()
+    ];
 
     queues[moveTo].addAll(
       pickMultipleCratesAtOnce ? containers.reversed : containers,

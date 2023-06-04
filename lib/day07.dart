@@ -33,16 +33,15 @@ Map<String, AoCDirectory> makeAoCFileSystem(Iterable<String> input) {
 
   for (final line in input) {
     if (line.startsWith(r'$ cd ')) {
-      final String argument = line.split(r'$ cd ')[1];
-
-      if (argument == '..') {
-        currentPath.removeLast();
-      } else if (argument == '/') {
-        currentPath
-          ..clear()
-          ..add('');
-      } else {
-        currentPath.add(argument);
+      switch (line.split(r'$ cd ')[1]) {
+        case '..':
+          currentPath.removeLast();
+        case '/':
+          currentPath
+            ..clear()
+            ..add('');
+        case var argument:
+          currentPath.add(argument);
       }
 
       String stringPath = currentPath.join('/');

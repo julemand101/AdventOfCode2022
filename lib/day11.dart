@@ -71,21 +71,17 @@ class Monkey {
   }
 
   static int Function(int) parseOperation(String line) {
-    RegExp regExp = RegExp(r'Operation: new = old (\*|\+) (old|\d+)');
+    RegExp regExp = RegExp(r'Operation: new = old ([*+]) (old|\d+)');
     RegExpMatch match = regExp.firstMatch(line)!;
 
     String operation = match[1]!;
     int? value = int.tryParse(match[2]!);
 
-    return (int old) {
-      if (operation == '*') {
-        return old * (value ?? old);
-      } else if (operation == '+') {
-        return old + (value ?? old);
-      } else {
-        throw 'Unknown operation: $operation in $line';
-      }
-    };
+    return (int old) => switch (operation) {
+          '*' => old * (value ?? old),
+          '+' => old + (value ?? old),
+          _ => throw 'Unknown operation: $operation in $line',
+        };
   }
 
   void inspect(
