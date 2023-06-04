@@ -4,7 +4,7 @@
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:collection/collection.dart';
+//import 'package:collection/collection.dart';
 
 final int letterA = 'a'.codeUnitAt(0);
 final int letterS = 'S'.codeUnitAt(0);
@@ -33,9 +33,9 @@ int solveA(List<String> input) {
   }
 
   // Default `false` on all values
-  BoolList visited = BoolList(grid.list.length)
-    ..[grid.listIndexOf(startPoint.x, startPoint.y)] = true;
-  Grid distance = Grid(grid.xSize, grid.ySize);
+  //BoolList visited = BoolList(grid.list.length)
+  //  ..[grid.listIndexOf(startPoint.x, startPoint.y)] = true;
+  //Grid distance = Grid(grid.xSize, grid.ySize);
 
   print(startPoint);
   print(grid.getNeighbours(Point(0, 0)));
