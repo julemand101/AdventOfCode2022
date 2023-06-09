@@ -5,12 +5,13 @@ import 'dart:collection';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:collection/collection.dart';
-
 final int letterA = 'a'.codeUnitAt(0);
 final int letterS = 'S'.codeUnitAt(0);
 final int letterE = 'E'.codeUnitAt(0);
 final int letterZ = 'z'.codeUnitAt(0);
+
+// Highest uint16 value = Point we have yet to visit
+const notVisited = 65535;
 
 int solveA(List<String> input) {
   Grid grid = Grid(input.first.length, input.length)
@@ -33,40 +34,29 @@ int solveA(List<String> input) {
     }
   }
 
-  // Default `false` on all values
-  final int listIndexOfStartPoint = grid.listIndexOfPoint(startPoint);
-  BoolList visited = BoolList(grid.list.length);
   Uint16List distance = Uint16List(grid.list.length)
     ..fillRange(0, grid.list.length, -1)
-    ..[listIndexOfStartPoint] = 0;
+    ..[grid.listIndexOfPoint(startPoint)] = 0;
 
   Queue<Point<int>> pointsToVisit = Queue()..add(startPoint);
 
   while (pointsToVisit.isNotEmpty) {
     final Point<int> pointToVisit = pointsToVisit.removeFirst();
     final int listIndexOfPoint = grid.listIndexOfPoint(pointToVisit);
-
-    if (visited[listIndexOfPoint]) {
-      continue;
-    }
-
     final int currentDistance = distance[listIndexOfPoint];
 
     if (pointToVisit == endPoint) {
       return currentDistance;
     }
 
-    visited[listIndexOfPoint] = true;
-
     for (final Point<int> neighbourPoint in grid.getNeighbours(pointToVisit)) {
       final int indexOfNeighbourPoint = grid.listIndexOfPoint(neighbourPoint);
       final int knowDistanceToPoint = distance[indexOfNeighbourPoint];
 
-      if (currentDistance + 1 < knowDistanceToPoint) {
+      if (knowDistanceToPoint == notVisited) {
         distance[indexOfNeighbourPoint] = currentDistance + 1;
+        pointsToVisit.add(neighbourPoint);
       }
-
-      pointsToVisit.add(neighbourPoint);
     }
   }
 
