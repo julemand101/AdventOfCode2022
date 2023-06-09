@@ -21,7 +21,7 @@ void main() {
           equals(31));
     });
     test('Solution', () {
-      expect(solveA(input), equals(-1));
+      expect(solveA(input), equals(528));
     });
-  }, skip: true);
+  });
 }

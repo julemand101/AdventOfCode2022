@@ -1,10 +1,11 @@
 // --- Day 12: Hill Climbing Algorithm ---
 // https://adventofcode.com/2022/day/12
 
+import 'dart:collection';
 import 'dart:math';
 import 'dart:typed_data';
 
-//import 'package:collection/collection.dart';
+import 'package:collection/collection.dart';
 
 final int letterA = 'a'.codeUnitAt(0);
 final int letterS = 'S'.codeUnitAt(0);
@@ -33,15 +34,43 @@ int solveA(List<String> input) {
   }
 
   // Default `false` on all values
-  //BoolList visited = BoolList(grid.list.length)
-  //  ..[grid.listIndexOf(startPoint.x, startPoint.y)] = true;
-  //Grid distance = Grid(grid.xSize, grid.ySize);
+  final int listIndexOfStartPoint = grid.listIndexOfPoint(startPoint);
+  BoolList visited = BoolList(grid.list.length);
+  Uint16List distance = Uint16List(grid.list.length)
+    ..fillRange(0, grid.list.length, -1)
+    ..[listIndexOfStartPoint] = 0;
 
-  print(startPoint);
-  print(grid.getNeighbours(Point(0, 0)));
-  print(endPoint);
+  Queue<Point<int>> pointsToVisit = Queue()..add(startPoint);
 
-  return 0;
+  while (pointsToVisit.isNotEmpty) {
+    final Point<int> pointToVisit = pointsToVisit.removeFirst();
+    final int listIndexOfPoint = grid.listIndexOfPoint(pointToVisit);
+
+    if (visited[listIndexOfPoint]) {
+      continue;
+    }
+
+    final int currentDistance = distance[listIndexOfPoint];
+
+    if (pointToVisit == endPoint) {
+      return currentDistance;
+    }
+
+    visited[listIndexOfPoint] = true;
+
+    for (final Point<int> neighbourPoint in grid.getNeighbours(pointToVisit)) {
+      final int indexOfNeighbourPoint = grid.listIndexOfPoint(neighbourPoint);
+      final int knowDistanceToPoint = distance[indexOfNeighbourPoint];
+
+      if (currentDistance + 1 < knowDistanceToPoint) {
+        distance[indexOfNeighbourPoint] = currentDistance + 1;
+      }
+
+      pointsToVisit.add(neighbourPoint);
+    }
+  }
+
+  throw Exception('Could not find result!');
 }
 
 class Grid {
@@ -53,6 +82,7 @@ class Grid {
 
   int get(int x, int y) => list[listIndexOf(x, y)];
   int listIndexOf(int x, int y) => x + (y * xSize);
+  int listIndexOfPoint(Point<int> point) => listIndexOf(point.x, point.y);
 
   void setValue(int x, int y, int value) => list[listIndexOf(x, y)] = value;
   void setAllValues(Iterable<int> values) => list.setAll(0, values);
@@ -70,7 +100,7 @@ class Grid {
         .where((p) {
       int height = get(p.x, p.y);
 
-      return (height == currentHeight) || (height == (currentHeight + 1));
+      return height <= currentHeight + 1;
     });
   }
 
@@ -80,7 +110,7 @@ class Grid {
 
     for (var y = 0; y < ySize; y++) {
       for (var x = 0; x < xSize; x++) {
-        buffer.write(get(x, y));
+        buffer.writeCharCode(get(x, y));
       }
       buffer.writeln();
     }
