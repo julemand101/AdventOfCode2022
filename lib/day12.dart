@@ -14,11 +14,32 @@ final int letterZ = 'z'.codeUnitAt(0);
 const notVisited = 65535;
 
 int solveA(List<String> input) {
+  final (:startPosition, lowestElevationPositions: _, :distances) =
+      parseInput(input);
+
+  return distances[startPosition];
+}
+
+int solveB(List<String> input) {
+  final (startPosition: _, :lowestElevationPositions, :distances) =
+      parseInput(input);
+
+  return lowestElevationPositions.fold(
+    notVisited,
+    (shortestDistance, position) => min(shortestDistance, distances[position]),
+  );
+}
+
+({
+  int startPosition,
+  List<int> lowestElevationPositions,
+  Uint16List distances,
+}) parseInput(List<String> input) {
   Grid grid = Grid(input.first.length, input.length)
     ..setAllValues(input.expand((line) => line.codeUnits));
 
-  late final Point<int> startPoint;
-  late final Point<int> endPoint;
+  late final Point<int> startPoint, endPoint;
+  final List<int> lowestElevationPoints = [];
 
   for (var y = 0; y < grid.ySize; y++) {
     for (var x = 0; x < grid.xSize; x++) {
@@ -26,41 +47,45 @@ int solveA(List<String> input) {
 
       if (codeUnit == letterS) {
         startPoint = Point(x, y);
-        grid.setValue(x, y, letterA);
+        codeUnit = grid.setValue(x, y, letterA);
       } else if (codeUnit == letterE) {
         endPoint = Point(x, y);
-        grid.setValue(x, y, letterZ);
+        codeUnit = grid.setValue(x, y, letterZ);
+      }
+
+      if (codeUnit == letterA) {
+        lowestElevationPoints.add(grid.listIndexOf(x, y));
       }
     }
   }
 
-  Uint16List distance = Uint16List(grid.list.length)
+  Uint16List distances = Uint16List(grid.list.length)
     ..fillRange(0, grid.list.length, -1)
-    ..[grid.listIndexOfPoint(startPoint)] = 0;
+    ..[grid.listIndexOfPoint(endPoint)] = 0;
 
-  Queue<Point<int>> pointsToVisit = Queue()..add(startPoint);
+  Queue<Point<int>> pointsToVisit = Queue()..add(endPoint);
 
   while (pointsToVisit.isNotEmpty) {
     final Point<int> pointToVisit = pointsToVisit.removeFirst();
     final int listIndexOfPoint = grid.listIndexOfPoint(pointToVisit);
-    final int currentDistance = distance[listIndexOfPoint];
-
-    if (pointToVisit == endPoint) {
-      return currentDistance;
-    }
+    final int currentDistance = distances[listIndexOfPoint];
 
     for (final Point<int> neighbourPoint in grid.getNeighbours(pointToVisit)) {
       final int indexOfNeighbourPoint = grid.listIndexOfPoint(neighbourPoint);
-      final int knowDistanceToPoint = distance[indexOfNeighbourPoint];
+      final int knowDistanceToPoint = distances[indexOfNeighbourPoint];
 
       if (knowDistanceToPoint == notVisited) {
-        distance[indexOfNeighbourPoint] = currentDistance + 1;
+        distances[indexOfNeighbourPoint] = currentDistance + 1;
         pointsToVisit.add(neighbourPoint);
       }
     }
   }
 
-  throw Exception('Could not find result!');
+  return (
+    startPosition: grid.listIndexOfPoint(startPoint),
+    lowestElevationPositions: lowestElevationPoints,
+    distances: distances,
+  );
 }
 
 class Grid {
@@ -74,7 +99,7 @@ class Grid {
   int listIndexOf(int x, int y) => x + (y * xSize);
   int listIndexOfPoint(Point<int> point) => listIndexOf(point.x, point.y);
 
-  void setValue(int x, int y, int value) => list[listIndexOf(x, y)] = value;
+  int setValue(int x, int y, int value) => list[listIndexOf(x, y)] = value;
   void setAllValues(Iterable<int> values) => list.setAll(0, values);
 
   Iterable<Point<int>> getNeighbours(Point<int> point) sync* {
@@ -87,11 +112,7 @@ class Grid {
       Point(point.x - 1, point.y), // left
     ]
         .where((p) => p.x >= 0 && p.x < xSize && p.y >= 0 && p.y < ySize)
-        .where((p) {
-      int height = get(p.x, p.y);
-
-      return height <= currentHeight + 1;
-    });
+        .where((p) => get(p.x, p.y) >= currentHeight - 1);
   }
 
   @override

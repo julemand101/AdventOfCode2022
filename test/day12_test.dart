@@ -24,4 +24,20 @@ void main() {
       expect(solveA(input), equals(528));
     });
   });
+  group('Part Two', () {
+    test('Example 1', () {
+      expect(
+          solveB(const [
+            'Sabqponm',
+            'abcryxxl',
+            'accszExk',
+            'acctuvwj',
+            'abdefghi',
+          ]),
+          equals(29));
+    });
+    test('Solution', () {
+      expect(solveB(input), equals(522));
+    });
+  });
 }
