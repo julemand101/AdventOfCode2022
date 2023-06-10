@@ -23,6 +23,24 @@ int solveA(Iterable<String> input) {
   return sum;
 }
 
+int solveB(Iterable<String> input) {
+  const divider1 = [
+    [2]
+  ];
+  const divider2 = [
+    [6]
+  ];
+
+  final List<dynamic> dataPackets = [
+    divider1,
+    divider2,
+    ...input.where((element) => element.isNotEmpty).map(jsonDecode),
+  ]..sort((a, b) => testPair(a, b)! ? -1 : 1);
+
+  return (dataPackets.indexOf(divider1) + 1) *
+      (dataPackets.indexOf(divider2) + 1);
+}
+
 bool? testPair(dynamic packetData1, dynamic packetData2) {
   switch ((packetData1, packetData2)) {
     case (int left, int right):
