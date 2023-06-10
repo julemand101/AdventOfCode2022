@@ -8,9 +8,8 @@ void main(List<String> args) {
     return;
   }
 
-  final dayNumber = args[0];
+  final [dayNumber, dayTitle] = args;
   final paddedDayNumber = dayNumber.padLeft(2, '0');
-  final dayTitle = args[1];
 
   // Create lib file
   final dayFileName = 'day$paddedDayNumber.dart';
