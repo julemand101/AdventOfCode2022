@@ -5,14 +5,13 @@ import 'dart:collection';
 import 'dart:math';
 
 int solveA(Iterable<String> input) {
-  final HashSet<Point<int>> rockPoints = parseRocks(input);
-
-  final int bottomY = rockPoints.reduce((a, b) => a.y > b.y ? a : b).y;
-  final HashSet<Point<int>> sandPoints = HashSet();
+  // A point might be filled with either a rock or sand. In the beginning, we
+  // only have rocks. Since we later need to only count the sand, we keep a
+  // count of how many rocks there are so we can subtract that later.
+  final HashSet<Point<int>> filledPoints = parseRocks(input);
+  final int numberOfRocks = filledPoints.length;
+  final int bottomY = filledPoints.reduce((a, b) => a.y > b.y ? a : b).y;
   const sandSpawnPoint = Point<int>(500, 0);
-
-  bool isNotBlocked(Point<int> point) =>
-      !sandPoints.contains(point) && !rockPoints.contains(point);
 
   outerLoop:
   while (true) {
@@ -21,16 +20,16 @@ int solveA(Iterable<String> input) {
     for (var y = sandSpawnPoint.y; y < bottomY; y++) {
       final point = Point(x, y);
 
-      if (isNotBlocked(point.downOneStep)) {
+      if (!filledPoints.contains(point.downOneStep)) {
         // Do nothing since we should just keep going directly down
-      } else if (isNotBlocked(point.oneStepDownAndToTheLeft)) {
+      } else if (!filledPoints.contains(point.oneStepDownAndToTheLeft)) {
         // Move one step to the left
         x--;
-      } else if (isNotBlocked(point.oneStepDownAndToTheRight)) {
+      } else if (!filledPoints.contains(point.oneStepDownAndToTheRight)) {
         // Move one step to the right
         x++;
       } else {
-        sandPoints.add(point);
+        filledPoints.add(point);
         continue outerLoop;
       }
     }
@@ -40,20 +39,17 @@ int solveA(Iterable<String> input) {
     break;
   }
 
-  return sandPoints.length;
+  return filledPoints.length - numberOfRocks;
 }
 
 int solveB(Iterable<String> input) {
-  final HashSet<Point<int>> rockPoints = parseRocks(input);
-
-  final int bottomY = rockPoints.reduce((a, b) => a.y > b.y ? a : b).y + 2;
-  final HashSet<Point<int>> sandPoints = HashSet();
+  final HashSet<Point<int>> filledPoints = parseRocks(input);
+  final int numberOfRocks = filledPoints.length;
+  final int bottomY = filledPoints.reduce((a, b) => a.y > b.y ? a : b).y + 2;
   const sandSpawnPoint = Point<int>(500, 0);
 
   bool isNotBlocked(Point<int> point) =>
-      !sandPoints.contains(point) &&
-      !rockPoints.contains(point) &&
-      point.y < bottomY;
+      !filledPoints.contains(point) && point.y < bottomY;
 
   outerLoop:
   while (isNotBlocked(sandSpawnPoint)) {
@@ -71,13 +67,13 @@ int solveB(Iterable<String> input) {
         // Move one step to the right
         x++;
       } else {
-        sandPoints.add(point);
+        filledPoints.add(point);
         continue outerLoop;
       }
     }
   }
 
-  return sandPoints.length;
+  return filledPoints.length - numberOfRocks;
 }
 
 HashSet<Point<int>> parseRocks(Iterable<String> input) {
