@@ -5,29 +5,7 @@ import 'dart:collection';
 import 'dart:math';
 
 int solveA(Iterable<String> input) {
-  final HashSet<Point<int>> rockPoints = HashSet();
-
-  for (final pathToDraw in input.map((e) => e.split(' -> ').map(parsePoint))) {
-    int? prevX;
-    int? prevY;
-
-    for (final point in pathToDraw) {
-      rockPoints.add(point);
-
-      if (point.x == prevX && prevY != null) {
-        for (final y in generateSequence(prevY, point.y)) {
-          rockPoints.add(Point(point.x, y));
-        }
-      } else if (point.y == prevY && prevX != null) {
-        for (final x in generateSequence(prevX, point.x)) {
-          rockPoints.add(Point(x, point.y));
-        }
-      }
-
-      prevX = point.x;
-      prevY = point.y;
-    }
-  }
+  final HashSet<Point<int>> rockPoints = parseRocks(input);
 
   final int bottomY = rockPoints.reduce((a, b) => a.y > b.y ? a : b).y;
   final HashSet<Point<int>> sandPoints = HashSet();
@@ -63,6 +41,71 @@ int solveA(Iterable<String> input) {
   }
 
   return sandPoints.length;
+}
+
+int solveB(Iterable<String> input) {
+  final HashSet<Point<int>> rockPoints = parseRocks(input);
+
+  final int bottomY = rockPoints.reduce((a, b) => a.y > b.y ? a : b).y + 2;
+  final HashSet<Point<int>> sandPoints = HashSet();
+  const sandSpawnPoint = Point<int>(500, 0);
+
+  bool isNotBlocked(Point<int> point) =>
+      !sandPoints.contains(point) &&
+      !rockPoints.contains(point) &&
+      point.y < bottomY;
+
+  outerLoop:
+  while (isNotBlocked(sandSpawnPoint)) {
+    var x = sandSpawnPoint.x;
+
+    for (var y = sandSpawnPoint.y; y < bottomY; y++) {
+      final point = Point(x, y);
+
+      if (isNotBlocked(point.downOneStep)) {
+        // Do nothing since we should just keep going directly down
+      } else if (isNotBlocked(point.oneStepDownAndToTheLeft)) {
+        // Move one step to the left
+        x--;
+      } else if (isNotBlocked(point.oneStepDownAndToTheRight)) {
+        // Move one step to the right
+        x++;
+      } else {
+        sandPoints.add(point);
+        continue outerLoop;
+      }
+    }
+  }
+
+  return sandPoints.length;
+}
+
+HashSet<Point<int>> parseRocks(Iterable<String> input) {
+  final HashSet<Point<int>> rockPoints = HashSet();
+
+  for (final pathToDraw in input.map((e) => e.split(' -> ').map(parsePoint))) {
+    int? prevX;
+    int? prevY;
+
+    for (final point in pathToDraw) {
+      rockPoints.add(point);
+
+      if (point.x == prevX && prevY != null) {
+        for (final y in generateSequence(prevY, point.y)) {
+          rockPoints.add(Point(point.x, y));
+        }
+      } else if (point.y == prevY && prevX != null) {
+        for (final x in generateSequence(prevX, point.x)) {
+          rockPoints.add(Point(x, point.y));
+        }
+      }
+
+      prevX = point.x;
+      prevY = point.y;
+    }
+  }
+
+  return rockPoints;
 }
 
 Point<int> parsePoint(String l) => switch (l.split(',')) {
