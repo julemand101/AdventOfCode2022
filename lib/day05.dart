@@ -3,20 +3,13 @@
 
 import 'package:collection/collection.dart' as collection;
 
-String solveA(Iterable<String> input) => solve(
-      input,
-      pickMultipleCratesAtOnce: false,
-    );
+String solveA(Iterable<String> input) =>
+    solve(input, pickMultipleCratesAtOnce: false);
 
-String solveB(Iterable<String> input) => solve(
-      input,
-      pickMultipleCratesAtOnce: true,
-    );
+String solveB(Iterable<String> input) =>
+    solve(input, pickMultipleCratesAtOnce: true);
 
-String solve(
-  Iterable<String> input, {
-  required bool pickMultipleCratesAtOnce,
-}) {
+String solve(Iterable<String> input, {required bool pickMultipleCratesAtOnce}) {
   List<List<String>> queues = [];
   final Iterator<String> inputIterator = input.iterator;
 
@@ -57,7 +50,7 @@ String solve(
 
     List<String> moveFromList = queues[moveFrom];
     List<String> containers = [
-      for (var i = 0; i < moveAmount; i++) moveFromList.removeLast()
+      for (var i = 0; i < moveAmount; i++) moveFromList.removeLast(),
     ];
 
     queues[moveTo].addAll(

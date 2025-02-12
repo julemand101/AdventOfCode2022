@@ -53,8 +53,9 @@ class Monkey {
 
   factory Monkey.parse(List<String> lines) {
     int id = int.parse(RegExp(r'Monkey (\d+):').firstMatch(lines[0])![1]!);
-    Queue<int> items =
-        Queue.of(lines[1].split(': ').last.split(', ').map(int.parse));
+    Queue<int> items = Queue.of(
+      lines[1].split(': ').last.split(', ').map(int.parse),
+    );
     int Function(int) operation = parseOperation(lines[2]);
     int divisibleBy = int.parse(lines[3].split('by ').last);
     int throwToMonkeyIfTrue = int.parse(lines[4].split('monkey ').last);
@@ -78,10 +79,10 @@ class Monkey {
     int? value = int.tryParse(match[2]!);
 
     return (int old) => switch (operation) {
-          '*' => old * (value ?? old),
-          '+' => old + (value ?? old),
-          _ => throw 'Unknown operation: $operation in $line',
-        };
+      '*' => old * (value ?? old),
+      '+' => old + (value ?? old),
+      _ => throw 'Unknown operation: $operation in $line',
+    };
   }
 
   void inspect(
@@ -90,7 +91,8 @@ class Monkey {
     required bool partB,
   }) {
     while (items.isNotEmpty) {
-      final newWorryValue = (partB
+      final newWorryValue =
+          (partB
               ? (operation(items.removeFirst()))
               : (operation(items.removeFirst()) ~/ 3)) %
           superModulo;

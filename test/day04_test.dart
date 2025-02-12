@@ -11,15 +11,16 @@ void main() {
   group('Part One', () {
     test('Example 1', () {
       expect(
-          solveA(const [
-            '2-4,6-8',
-            '2-3,4-5',
-            '5-7,7-9',
-            '2-8,3-7',
-            '6-6,4-6',
-            '2-6,4-8',
-          ]),
-          equals(2));
+        solveA(const [
+          '2-4,6-8',
+          '2-3,4-5',
+          '5-7,7-9',
+          '2-8,3-7',
+          '6-6,4-6',
+          '2-6,4-8',
+        ]),
+        equals(2),
+      );
     });
     test('Solution', () {
       expect(solveA(input), equals(424));
@@ -28,15 +29,16 @@ void main() {
   group('Part Two', () {
     test('Example 1', () {
       expect(
-          solveB(const [
-            '2-4,6-8',
-            '2-3,4-5',
-            '5-7,7-9',
-            '2-8,3-7',
-            '6-6,4-6',
-            '2-6,4-8',
-          ]),
-          equals(4));
+        solveB(const [
+          '2-4,6-8',
+          '2-3,4-5',
+          '5-7,7-9',
+          '2-8,3-7',
+          '6-6,4-6',
+          '2-6,4-8',
+        ]),
+        equals(4),
+      );
     });
     test('Solution', () {
       expect(solveB(input), equals(804));

@@ -10,13 +10,7 @@ final input = File('test/data/day02.txt').readAsLinesSync();
 void main() {
   group('Part One', () {
     test('Example 1', () {
-      expect(
-          solveA(const [
-            'A Y',
-            'B X',
-            'C Z',
-          ]),
-          equals(15));
+      expect(solveA(const ['A Y', 'B X', 'C Z']), equals(15));
     });
     test('Solution', () {
       expect(solveA(input), equals(8392));
@@ -24,13 +18,7 @@ void main() {
   });
   group('Part Two', () {
     test('Example 1', () {
-      expect(
-          solveB(const [
-            'A Y',
-            'B X',
-            'C Z',
-          ]),
-          equals(12));
+      expect(solveB(const ['A Y', 'B X', 'C Z']), equals(12));
     });
     test('Solution', () {
       expect(solveB(input), equals(10116));

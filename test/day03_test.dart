@@ -11,15 +11,16 @@ void main() {
   group('Part One', () {
     test('Example 1', () {
       expect(
-          solveA(const [
-            'vJrwpWtwJgWrhcsFMMfFFhFp',
-            'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL',
-            'PmmdzqPrVvPwwTWBwg',
-            'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn',
-            'ttgJtRGJQctTZtZT',
-            'CrZsJsPPZsGzwwsLwLmpwMDw',
-          ]),
-          equals(157));
+        solveA(const [
+          'vJrwpWtwJgWrhcsFMMfFFhFp',
+          'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL',
+          'PmmdzqPrVvPwwTWBwg',
+          'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn',
+          'ttgJtRGJQctTZtZT',
+          'CrZsJsPPZsGzwwsLwLmpwMDw',
+        ]),
+        equals(157),
+      );
     });
     test('Solution', () {
       expect(solveA(input), equals(7766));
@@ -28,15 +29,16 @@ void main() {
   group('Part Two', () {
     test('Example 1', () {
       expect(
-          solveB(const [
-            'vJrwpWtwJgWrhcsFMMfFFhFp',
-            'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL',
-            'PmmdzqPrVvPwwTWBwg',
-            'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn',
-            'ttgJtRGJQctTZtZT',
-            'CrZsJsPPZsGzwwsLwLmpwMDw',
-          ]),
-          equals(70));
+        solveB(const [
+          'vJrwpWtwJgWrhcsFMMfFFhFp',
+          'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL',
+          'PmmdzqPrVvPwwTWBwg',
+          'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn',
+          'ttgJtRGJQctTZtZT',
+          'CrZsJsPPZsGzwwsLwLmpwMDw',
+        ]),
+        equals(70),
+      );
     });
     test('Solution', () {
       expect(solveB(input), equals(2415));

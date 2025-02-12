@@ -21,11 +21,12 @@ String solveB(Iterable<String> input) =>
         // Changed the layout to use `##`/` ` instead of `#`/` ` because it
         // makes the output a lot easier to read. Test code is changed to this
         // format as well.
-        String value = (cathodePosition == registerX - 1) ||
-                (cathodePosition == registerX) ||
-                (cathodePosition == registerX + 1)
-            ? '##'
-            : '  ';
+        String value =
+            (cathodePosition == registerX - 1) ||
+                    (cathodePosition == registerX) ||
+                    (cathodePosition == registerX + 1)
+                ? '##'
+                : '  ';
 
         return ((cpuCycle + 1) % 40 == 0)
             ? (image..writeln(value))

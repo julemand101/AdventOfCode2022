@@ -39,12 +39,12 @@ int solveB(List<String> input) {
 }
 
 int getPriority(String character) => switch (character.codeUnitAt(0)) {
-      // A (Priority 1) -> Z (Priority 26)
-      >= 65 && <= 90 && final asciiValue => (asciiValue - 64) + 26,
+  // A (Priority 1) -> Z (Priority 26)
+  >= 65 && <= 90 && final asciiValue => (asciiValue - 64) + 26,
 
-      // a (Priority 27) -> Z (Priority 52)
-      >= 97 && <= 122 && final asciiValue => asciiValue - 96,
+  // a (Priority 27) -> Z (Priority 52)
+  >= 97 && <= 122 && final asciiValue => asciiValue - 96,
 
-      // Else...
-      _ => throw 'Could not parse character: $character',
-    };
+  // Else...
+  _ => throw 'Could not parse character: $character',
+};

@@ -11,11 +11,12 @@ void main() {
   group('Part One', () {
     test('Example 1', () {
       expect(
-          solveA(const [
-            '498,4 -> 498,6 -> 496,6',
-            '503,4 -> 502,4 -> 502,9 -> 494,9',
-          ]),
-          equals(24));
+        solveA(const [
+          '498,4 -> 498,6 -> 496,6',
+          '503,4 -> 502,4 -> 502,9 -> 494,9',
+        ]),
+        equals(24),
+      );
     });
     test('Solution', () {
       expect(solveA(input), equals(768));
@@ -24,11 +25,12 @@ void main() {
   group('Part Two', () {
     test('Example 1', () {
       expect(
-          solveB(const [
-            '498,4 -> 498,6 -> 496,6',
-            '503,4 -> 502,4 -> 502,9 -> 494,9',
-          ]),
-          equals(93));
+        solveB(const [
+          '498,4 -> 498,6 -> 496,6',
+          '503,4 -> 502,4 -> 502,9 -> 494,9',
+        ]),
+        equals(93),
+      );
     });
     test('Solution', () {
       expect(solveB(input), equals(26686));

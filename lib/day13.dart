@@ -25,10 +25,10 @@ int solveA(Iterable<String> input) {
 
 int solveB(Iterable<String> input) {
   const List<dynamic> divider1 = [
-    [2]
+    [2],
   ];
   const List<dynamic> divider2 = [
-    [6]
+    [6],
   ];
 
   final List<dynamic> dataPackets = [
@@ -79,5 +79,6 @@ bool? testPair(dynamic packetData1, dynamic packetData2) {
   }
 
   throw Exception(
-      'Could not handle packetData1($packetData1) packetData2($packetData2)!');
+    'Could not handle packetData1($packetData1) packetData2($packetData2)!',
+  );
 }

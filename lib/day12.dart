@@ -14,15 +14,17 @@ final int letterZ = 'z'.codeUnitAt(0);
 const notVisited = 65535;
 
 int solveA(List<String> input) {
-  final (:startPosition, lowestElevationPositions: _, :distances) =
-      parseInput(input);
+  final (:startPosition, lowestElevationPositions: _, :distances) = parseInput(
+    input,
+  );
 
   return distances[startPosition];
 }
 
 int solveB(List<String> input) {
-  final (startPosition: _, :lowestElevationPositions, :distances) =
-      parseInput(input);
+  final (startPosition: _, :lowestElevationPositions, :distances) = parseInput(
+    input,
+  );
 
   return lowestElevationPositions.fold(
     notVisited,
@@ -30,11 +32,8 @@ int solveB(List<String> input) {
   );
 }
 
-({
-  int startPosition,
-  List<int> lowestElevationPositions,
-  Uint16List distances,
-}) parseInput(List<String> input) {
+({int startPosition, List<int> lowestElevationPositions, Uint16List distances})
+parseInput(List<String> input) {
   Grid grid = Grid(input.first.length, input.length)
     ..setAllValues(input.expand((line) => line.codeUnits));
 
@@ -59,9 +58,10 @@ int solveB(List<String> input) {
     }
   }
 
-  Uint16List distances = Uint16List(grid.list.length)
-    ..fillRange(0, grid.list.length, -1)
-    ..[grid.listIndexOfPoint(endPoint)] = 0;
+  Uint16List distances =
+      Uint16List(grid.list.length)
+        ..fillRange(0, grid.list.length, -1)
+        ..[grid.listIndexOfPoint(endPoint)] = 0;
 
   Queue<Point<int>> pointsToVisit = Queue()..add(endPoint);
 
@@ -106,11 +106,11 @@ class Grid {
     int currentHeight = get(point.x, point.y);
 
     yield* [
-      Point(point.x, point.y - 1), // up
-      Point(point.x + 1, point.y), // right
-      Point(point.x, point.y + 1), // down
-      Point(point.x - 1, point.y), // left
-    ]
+          Point(point.x, point.y - 1), // up
+          Point(point.x + 1, point.y), // right
+          Point(point.x, point.y + 1), // down
+          Point(point.x - 1, point.y), // left
+        ]
         .where((p) => p.x >= 0 && p.x < xSize && p.y >= 0 && p.y < ySize)
         .where((p) => get(p.x, p.y) >= currentHeight - 1);
   }

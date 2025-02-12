@@ -2,9 +2,9 @@
 // https://adventofcode.com/2022/day/4
 
 int solveA(Iterable<String> input) => solve(input, (aSet, bSet) {
-      Set<int> unionSet = aSet.union(bSet);
-      return unionSet.length == aSet.length || unionSet.length == bSet.length;
-    });
+  Set<int> unionSet = aSet.union(bSet);
+  return unionSet.length == aSet.length || unionSet.length == bSet.length;
+});
 
 int solveB(Iterable<String> input) =>
     solve(input, (aSet, bSet) => aSet.intersection(bSet).isNotEmpty);

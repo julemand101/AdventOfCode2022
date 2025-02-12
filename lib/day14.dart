@@ -105,13 +105,14 @@ HashSet<Point<int>> parseRocks(Iterable<String> input) {
 }
 
 Point<int> parsePoint(String l) => switch (l.split(',')) {
-      [final x, final y] => Point(int.parse(x), int.parse(y)),
-      final unParseable => throw Exception('Could not parse: $unParseable'),
-    };
+  [final x, final y] => Point(int.parse(x), int.parse(y)),
+  final unParseable => throw Exception('Could not parse: $unParseable'),
+};
 
-List<int> generateSequence(int from, int to) => (from < to)
-    ? [for (var i = from + 1; i < to; i++) i]
-    : [for (var i = from - 1; i > to; i--) i];
+List<int> generateSequence(int from, int to) =>
+    (from < to)
+        ? [for (var i = from + 1; i < to; i++) i]
+        : [for (var i = from - 1; i > to; i--) i];
 
 extension on Point<int> {
   Point<int> get downOneStep => Point(x, y + 1);
