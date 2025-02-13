@@ -18,18 +18,13 @@ int solve(Iterable<String> input, {required int amountOfKnots}) {
     for (var i = 0; i < distance; i++) {
       final oldHeadPoint = knots[0];
 
-      switch (direction) {
-        case 'U':
-          knots[0] = Point<int>(oldHeadPoint.x, oldHeadPoint.y - 1);
-        case 'D':
-          knots[0] = Point<int>(oldHeadPoint.x, oldHeadPoint.y + 1);
-        case 'L':
-          knots[0] = Point<int>(oldHeadPoint.x - 1, oldHeadPoint.y);
-        case 'R':
-          knots[0] = Point<int>(oldHeadPoint.x + 1, oldHeadPoint.y);
-        default:
-          throw 'Invalid instruction: $line';
-      }
+      knots[0] = switch (direction) {
+        'U' => Point<int>(oldHeadPoint.x, oldHeadPoint.y - 1),
+        'D' => Point<int>(oldHeadPoint.x, oldHeadPoint.y + 1),
+        'L' => Point<int>(oldHeadPoint.x - 1, oldHeadPoint.y),
+        'R' => Point<int>(oldHeadPoint.x + 1, oldHeadPoint.y),
+        _ => throw 'Invalid instruction: $line',
+      };
 
       for (var knotIndex = 1; knotIndex < knots.length; knotIndex++) {
         knots[knotIndex] = knots[knotIndex].pointTowards(knots[knotIndex - 1]);
