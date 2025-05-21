@@ -58,10 +58,9 @@ parseInput(List<String> input) {
     }
   }
 
-  Uint16List distances =
-      Uint16List(grid.list.length)
-        ..fillRange(0, grid.list.length, -1)
-        ..[grid.listIndexOfPoint(endPoint)] = 0;
+  Uint16List distances = Uint16List(grid.list.length)
+    ..fillRange(0, grid.list.length, -1)
+    ..[grid.listIndexOfPoint(endPoint)] = 0;
 
   Queue<Point<int>> pointsToVisit = Queue()..add(endPoint);
 

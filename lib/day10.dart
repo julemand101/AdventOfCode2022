@@ -8,8 +8,8 @@ int solveA(Iterable<String> input) =>
       0,
       (cpuCycle, sum, registerX) =>
           (cpuCycle == 20 || (cpuCycle > 20 && (cpuCycle - 20) % 40 == 0))
-              ? sum + (cpuCycle * registerX)
-              : sum,
+          ? sum + (cpuCycle * registerX)
+          : sum,
     );
 
 String solveB(Iterable<String> input) =>
@@ -23,10 +23,10 @@ String solveB(Iterable<String> input) =>
         // format as well.
         String value =
             (cathodePosition == registerX - 1) ||
-                    (cathodePosition == registerX) ||
-                    (cathodePosition == registerX + 1)
-                ? '##'
-                : '  ';
+                (cathodePosition == registerX) ||
+                (cathodePosition == registerX + 1)
+            ? '##'
+            : '  ';
 
         return ((cpuCycle + 1) % 40 == 0)
             ? (image..writeln(value))

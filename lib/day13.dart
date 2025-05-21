@@ -9,10 +9,11 @@ int solveA(Iterable<String> input) {
   int sum = 0;
   int index = 0;
 
-  for (final [List<dynamic> packetData1, List<dynamic> packetData2] in input
-      .where((element) => element.isNotEmpty)
-      .map(jsonDecode)
-      .slices(2)) {
+  for (final [List<dynamic> packetData1, List<dynamic> packetData2]
+      in input
+          .where((element) => element.isNotEmpty)
+          .map(jsonDecode)
+          .slices(2)) {
     index++;
 
     if (testPair(packetData1, packetData2)!) {
